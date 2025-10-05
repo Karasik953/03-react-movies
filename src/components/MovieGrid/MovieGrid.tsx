@@ -1,13 +1,13 @@
 import css from "./MovieGrid.module.css";
-import type { Movie } from "../../types/Movie";
+import { Movie } from "../../types/movie";
 import { buildPosterUrl } from "../../services/movieService";
 
-type Props = {
+export interface MovieGridProps {
   movies: Movie[];
   onSelect: (movie: Movie) => void;
-};
+}
 
-export default function MovieGrid({ movies, onSelect }: Props) {
+export default function MovieGrid({ movies, onSelect }: MovieGridProps) {
   if (!movies.length) return null;
 
   return (
@@ -15,12 +15,14 @@ export default function MovieGrid({ movies, onSelect }: Props) {
       {movies.map((m) => (
         <li key={m.id}>
           <div className={css.card} onClick={() => onSelect(m)}>
-            <img
-              className={css.image}
-              src={buildPosterUrl(m.poster_path)}
-              alt={m.title}
-              loading="lazy"
-            />
+            {m.poster_path && (
+              <img
+                className={css.image}
+                src={buildPosterUrl(m.poster_path)}
+                alt={m.title}
+                loading="lazy"
+              />
+            )}
             <h2 className={css.title}>{m.title}</h2>
           </div>
         </li>

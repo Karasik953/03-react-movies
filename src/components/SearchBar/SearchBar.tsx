@@ -2,11 +2,11 @@ import { FormEvent } from "react";
 import toast from "react-hot-toast";
 import styles from "./SearchBar.module.css";
 
-type Props = {
+export interface SearchBarProps {
   onSubmit: (formData: FormData) => void;
-};
+}
 
-export default function SearchBar({ onSubmit }: Props) {
+export default function SearchBar({ onSubmit }: SearchBarProps) {
   const handleAction = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -18,8 +18,9 @@ export default function SearchBar({ onSubmit }: Props) {
       return;
     }
     onSubmit(formData);
-    form.reset(); 
+    form.reset();
   };
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>

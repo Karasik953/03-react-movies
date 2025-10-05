@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import css from "./MovieModal.module.css";
-import type { Movie } from "../../types/Movie";
+import { Movie } from "../../types/Movie";
 import { buildBackdropUrl } from "../../services/movieService";
 
-type Props = {
+export interface MovieModalProps {
   movie: Movie;
   onClose: () => void;
-};
+}
 
-export default function MovieModal({ movie, onClose }: Props) {
+export default function MovieModal({ movie, onClose }: MovieModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -46,13 +46,13 @@ export default function MovieModal({ movie, onClose }: Props) {
         >
           &times;
         </button>
-
-        <img
-          src={buildBackdropUrl(movie.backdrop_path)}
-          alt={movie.title}
-          className={css.image}
-        />
-
+        {movie.backdrop_path && (
+          <img
+            src={buildBackdropUrl(movie.backdrop_path)}
+            alt={movie.title}
+            className={css.image}
+          />
+        )}
         <div className={css.content}>
           <h2>{movie.title}</h2>
           <p>{movie.overview}</p>

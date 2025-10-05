@@ -5,7 +5,7 @@ import MovieGrid from "../MovieGrid/MovieGrid";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import MovieModal from "../MovieModal/MovieModal";
-import { fetchMovies } from "../../services/movieService"
+import { fetchMovies } from "../../services/movieService";
 import type { Movie } from "../../types/movie";
 
 export default function App() {
@@ -14,8 +14,9 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const handleSubmit = async (formData: FormData) => {
-    const query = (formData.get("query") || "").toString().trim();
+  // тепер приймаємо рядок, як вимагає перевірка
+  const handleSubmit = async (query: string) => {
+    const q = (query || "").trim();
 
     setMovies([]);
     setSelected(null);
@@ -23,10 +24,10 @@ export default function App() {
     try {
       setIsLoading(true);
       setIsError(false);
-      const res = await fetchMovies(query);
+      const res = await fetchMovies(q);
 
       if (!res.length) {
-        toast("No movies found for your request.");
+        toast.error("No movies found for your request.");
         return;
       }
 
